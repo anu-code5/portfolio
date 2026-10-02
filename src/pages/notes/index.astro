@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="Field notes" description="Essays, postmortems and reading notes.">
+  <div class="wrap">
+    <header class="page-head">
+      <span class="mono-label">Writing</span>
+      <h1>Field notes</h1>
+      <p class="page-lede">I write to find out what I actually understood. Essays on engineering, learning in public, and the occasional short story.</p>
+    </header>
+    <ul class="note-list" style="margin-top: 48px">
+      {notes.map((n) => (
+        <li>
+          <a href={`/notes/${n.id}/`}>
+            <span class="note-title">{n.data.title}</span>
+            <span class="note-meta">{n.data.kind} · {n.data.date} · {n.data.readTime}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

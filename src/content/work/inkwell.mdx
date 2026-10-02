@@ -1,0 +1,64 @@
+---
+title: Inkwell
+order: 3
+track: Systems
+origin: from writing
+summary: A small distributed key-value store with Raft consensus, built to understand what my systems textbook was hand-waving about.
+stack: [Go, gRPC, Raft, Jepsen-style tests]
+result: '[N]k writes/sec on a 3-node cluster'
+broke: a split-brain bug at 3 a.m. I wrote an essay about it.
+doodle: raft
+role: 'Solo: design, implementation, testing'
+timeline: '[N] weeks · [Mon YYYY]'
+code: https://github.com/your-username/inkwell
+---
+
+import Pipeline from '../../components/Pipeline.astro';
+import Metrics from '../../components/Metrics.astro';
+import MarginNote from '../../components/MarginNote.astro';
+import WhatBroke from '../../components/WhatBroke.astro';
+import FigureSlot from '../../components/FigureSlot.astro';
+
+## The problem
+
+I could recite how Raft works for an exam but couldn't explain why each rule exists. The fastest way to find out was to build it, break it, and write down what happened.
+
+Goal: a linearizable key-value store that survives node crashes and network partitions, with tests that prove it.
+
+<MarginNote>margin note: the essay about this bug got more readers than the code.</MarginNote>
+
+## How it works
+
+<Pipeline
+  steps={[
+    { title: 'Client', text: 'gRPC Put / Get to any node' },
+    { title: 'Leader', text: 'Elected by Raft, forwards writes' },
+    { title: 'Log', text: 'Replicated to a majority before commit' },
+    { title: 'State machine', text: 'In-memory map with snapshots' },
+    { title: 'Chaos tests', text: 'Random partitions and crashes, checked for linearizability' },
+  ]}
+/>
+
+<FigureSlot>[diagram or GIF: a partition heals and the cluster converges]</FigureSlot>
+
+## Results
+
+<Metrics
+  items={[
+    { value: '[N]k', label: 'writes per second on a 3-node cluster' },
+    { value: '[N]', label: 'chaos test runs with zero linearizability violations' },
+    { value: '[N]ms', label: 'p99 leader failover time' },
+  ]}
+/>
+
+<WhatBroke>
+  Under a specific partition, an old leader kept serving reads after a new one was elected. I traced it to a missing term check on the read path, added lease-based reads, and wrote a test that reproduces the bug in seconds.
+
+  **Lesson:** "it passed the tests" only means as much as the tests do.
+</WhatBroke>
+
+## What I'd do next
+
+- Dynamic membership changes
+- Persistent storage with a write-ahead log on disk
+- A small dashboard that visualises elections live

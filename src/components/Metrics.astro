@@ -1,0 +1,16 @@
+---
+// <Metrics items={[{ value: '[X]%', label: 'layout accuracy' }, ...]} />
+interface Props {
+  items: { value: string; label: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="metrics wide">
+  {items.map((m) => (
+    <div class="card metric">
+      <span class="metric-value"><span class="highlight">{m.value}</span></span>
+      <p>{m.label}</p>
+    </div>
+  ))}
+</div>

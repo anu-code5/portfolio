@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Doodle from './Doodle.astro';
+
+interface Props {
+  project: CollectionEntry<'work'>;
+  index: number;
+}
+const { project, index } = Astro.props;
+const d = project.data;
+const entry = String(index + 1).padStart(2, '0');
+---
+
+<article class="card project">
+  <div class="project-thumb">
+    <Doodle name={d.doodle} label={`Sketch for ${d.title}`} />
+  </div>
+  <div class="project-body">
+    <span class="mono-label">Entry {entry} · {d.track} · {d.origin}</span>
+    <h3><a href={`/work/${project.id}/`}>{d.title}</a></h3>
+    <p>{d.summary}</p>
+    <ul class="chips" aria-label="Tech stack">
+      {d.stack.map((s) => <li>{s}</li>)}
+    </ul>
+    <p class="project-result">Result: {d.result}</p>
+    <p class="hand">what broke: {d.broke}</p>
+    <div class="project-links">
+      <a href={`/work/${project.id}/`}>Case study →</a>
+      {d.code && <a href={d.code}>Code</a>}
+      {d.demo && <a href={d.demo}>Live demo</a>}
+    </div>
+  </div>
+</article>

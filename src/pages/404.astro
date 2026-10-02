@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import Doodle from '../components/Doodle.astro';
+---
+
+<Base title="Page not found">
+  <div class="wrap page-head" style="padding-bottom: 48px">
+    <span class="mono-label">404</span>
+    <h1>This page got torn out.</h1>
+    <p class="page-lede">The link might be old, or I might have renamed something. The rest of the notebook is still here.</p>
+    <div style="max-width: 260px"><Doodle name="wireframe" label="A sketch of an empty screen" /></div>
+    <div class="actions"><a class="btn btn-primary" href="/">Back to the notebook</a></div>
+  </div>
+</Base>

@@ -1,0 +1,86 @@
+---
+title: Smart Surveillance Monitoring System
+order: 1
+track: Full-stack + ML
+origin: from building
+summary: An AI-powered surveillance dashboard combining live camera monitoring, YOLOv8 object detection, incident management, and security analytics in one web application.
+stack: [React, Tailwind CSS, Node.js, Express.js, MongoDB, Flask, YOLOv8, OpenCV]
+result: Real-time surveillance, AI detection, incident management, and analytics in one dashboard
+broke: AI inference latency became noticeable on free-tier cloud deployments, while detection accuracy varied with image quality and lighting.
+doodle: annotate
+role: 'Full-stack + AI development'
+timeline: '[Mon YYYY] · [Mon YYYY]'
+code: [https://github.com/anu-code5/smart-surveillance-dashboard](https://github.com/anu-code5/smart-surveillance-dashboard)
+demo: [https://smart-surveillance-dashboard.vercel.app](https://smart-surveillance-dashboard.vercel.app)
+---
+
+import Pipeline from '../../components/Pipeline.astro';
+import Metrics from '../../components/Metrics.astro';
+import MarginNote from '../../components/MarginNote.astro';
+import WhatBroke from '../../components/WhatBroke.astro';
+import FigureSlot from '../../components/FigureSlot.astro';
+
+## The problem
+
+Traditional surveillance systems can generate large amounts of video without making the information easy to monitor or act on.
+
+I wanted to build a single dashboard that could combine live camera monitoring with AI-powered detection, incident management, and analytics — turning raw surveillance footage into actionable security information.
+
+The goal: monitor a camera feed, detect people and objects in real time, record incidents, and give users a clear overview of security activity from one interface.
+
+<MarginNote>margin note: the idea was to move surveillance from passive video watching toward active, AI-assisted monitoring.</MarginNote>
+
+## How it works
+
+<Pipeline
+  steps={[
+    { title: 'Monitor', text: 'React dashboard connects to a webcam for real-time surveillance and frame capture' },
+    { title: 'Detect', text: 'Frames are sent to a Flask AI service using YOLOv8, OpenCV and Ultralytics for object detection' },
+    { title: 'Record', text: 'Users can create incidents and upload incident media for automated AI analysis' },
+    { title: 'Classify', text: 'Detected incidents are organized by severity: Low, Medium or High' },
+    { title: 'Analyze', text: 'MongoDB stores incident data while the dashboard visualizes detection and alert trends' },
+  ]}
+/>
+
+<FigureSlot>[dashboard screenshot: live monitoring with AI detection results]</FigureSlot>
+
+## Results
+
+<Metrics
+  items={[
+    { value: 'Real-time', label: 'webcam monitoring and AI object detection' },
+    { value: 'YOLOv8', label: 'model powering object detection' },
+    { value: '3', label: 'incident severity levels: Low, Medium and High' },
+  ]}
+/>
+
+## The architecture
+
+The system is split into three services:
+
+- **Frontend:** React + Tailwind CSS, with React Webcam, Axios and Recharts
+- **Backend:** Node.js + Express.js with JWT authentication and Multer
+- **AI service:** Flask + YOLOv8 + OpenCV + Ultralytics
+- **Database:** MongoDB Atlas with Mongoose
+
+The frontend is deployed on Vercel, while the backend and AI service run on Render.
+
+<FigureSlot>[architecture diagram: React → Express → MongoDB + Flask/YOLOv8 AI service]</FigureSlot>
+
+<WhatBroke>
+  The biggest practical constraint was inference and hosting performance. On free-tier cloud deployments, AI inference latency can become noticeable, and continuous monitoring depends heavily on available compute resources.
+
+  Detection quality also depends on the quality and lighting of the input footage.
+
+  **Lesson:** an AI pipeline can work correctly in isolation but still feel slow when the model, API, database and frontend all have to work together in real time.
+</WhatBroke>
+
+## What I'd do next
+
+- Connect the system directly to CCTV/IP camera streams
+- Add multi-camera monitoring
+- Introduce email/SMS security alerts
+- Add face recognition
+- Add object tracking across frames
+- Introduce role-based access control
+- Expand detection-history analytics

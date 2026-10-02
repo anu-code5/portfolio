@@ -1,0 +1,19 @@
+---
+title: The night my Raft cluster elected two leaders
+kind: Postmortem
+date: '[Mon YYYY]'
+order: 2
+readTime: '[9] min'
+description: A split-brain bug in Inkwell, how I found it, and the one-line fix that took three days.
+---
+
+[Write your postmortem here.]
+
+A good structure: what happened, how you noticed, the timeline of the investigation, the root cause, the fix, and what you changed so it can't happen again.
+
+```go
+// Paste the smallest snippet that shows the bug
+if term < rf.currentTerm {
+    return
+}
+```

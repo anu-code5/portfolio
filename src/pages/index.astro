@@ -1,0 +1,166 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Doodle from '../components/Doodle.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site, quickFacts, books, nowReading, sketches } from '../data/site';
+
+const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order).slice(0, 4);
+---
+
+<Base>
+  <section class="wrap hero" aria-labelledby="hero-title">
+    <div class="hero-text">
+      <p class="mono-label">Final-year B.Tech Electronics and Computer Engineering · {site.college} · Class of {site.classOf}</p>
+      <h1 id="hero-title">
+        I build to learn and explore, <span class="highlight">then I write about how they broke.</span>
+      </h1>
+      <p class="hero-lede">
+        Every project here started as a page in a notebook: a skill, a margin note, a question from something I was
+        reading. This site is that notebook, cleaned up just enough for you to skim.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#work">See selected work</a>
+        <a class="btn" href={site.resume}>Download résumé</a>
+        <a class="btn btn-icon" href={site.github} aria-label="GitHub">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"></path></svg>
+        </a>
+        <a class="btn btn-icon" href={site.linkedin} aria-label="LinkedIn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
+      </div>
+      <p class="hand">↑ {site.lookingFor}</p>
+    </div>
+
+    <figure class="polaroid">
+      <div class="tape" aria-hidden="true"></div>
+      <!-- <Doodle name="attention" label="Pencil sketch of a small neural network with an attention arc" />
+      <figcaption class="hand muted">fig. 1: how I picture attention, roughly</figcaption> -->
+      <img
+        src="/sketches/selfie.jpeg"
+        alt="photo"
+      />
+
+      <figcaption class="hand muted">
+        Hi, that's me
+      </figcaption>
+
+    </figure>
+  </section>
+
+  <section class="wrap" aria-label="Quick facts">
+    <dl class="facts">
+      {quickFacts.map((f) => (
+        <div>
+          <dt class="mono-label">{f.label}</dt>
+          <dd>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+    <p class="hand muted facts-note">↑ the 30-second version, for busy recruiters</p>
+  </section>
+
+  <section class="wrap section" id="work" aria-labelledby="work-title">
+    <div class="section-head">
+      <h2 id="work-title">Projects</h2>
+      <p class="hand">each project is tied to something I wanted to learn</p>
+    </div>
+    <div class="project-grid">
+      {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
+    </div>
+    <a class="more-link" href={site.github}>More experiments on GitHub →</a>
+  </section>
+
+  <section class="wrap section notes" id="notes" aria-labelledby="notes-title">
+    <div class="notes-intro">
+      <h2 id="notes-title">Field notes</h2>
+      <p>I write to find out what I actually understood. Essays on engineering, learning in public, and the occasional short story.</p>
+      <a href="/notes/"><strong>All writing →</strong></a>
+    </div>
+    <ul class="note-list">
+      {notes.map((n) => (
+        <li>
+          <a href={`/notes/${n.id}/`}>
+            <span class="note-title">{n.data.title}</span>
+            <span class="note-meta">{n.data.kind} · {n.data.date} · {n.data.readTime}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="wrap section" id="shelf" aria-labelledby="shelf-title">
+    <div class="section-head">
+      <h2 id="shelf-title">Bookshelf</h2>
+      <p class="hand">tap a spine for my one-line review</p>
+    </div>
+    <div class="shelf-row">
+      <div class="shelf">
+        <div class="spines">
+          {books.map((b) => (
+            <button
+              type="button"
+              class={`spine tone-${b.tone}`}
+              style={`width:${b.w}px;height:${b.h}px`}
+              data-review={b.review}
+              data-title={b.title}
+              aria-pressed="false"
+            >
+              {b.title}
+            </button>
+          ))}
+          <div class="leaning" aria-hidden="true"></div>
+        </div>
+        <div class="plank" aria-hidden="true"></div>
+        <p class="hand review" id="review" aria-live="polite"></p>
+      </div>
+      <div class="card reading">
+        <span class="mono-label">Now reading</span>
+        <span class="reading-title">{nowReading.title}</span>
+        <span>{nowReading.author}</span>
+        <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow={nowReading.progress} aria-valuemin="0" aria-valuemax="100">
+          <span style={`width:${nowReading.progress}%`}></span>
+        </div>
+        <p class="hand">margin note: {nowReading.marginNote}</p>
+        <span class="note-meta">{nowReading.booksThisYear} books this year</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="sketches" aria-labelledby="sketch-title">
+    <div class="section-head">
+      <h2 id="sketch-title">Off the Screen</h2>
+      <p class="hand">somewhere between work & life</p>
+    </div>
+    <div class="sketch-grid">
+      {sketches.map((s) => (
+        <figure class={`sketch${!s.doodle && !s.image ? ' empty' : ''}`} style={`--tilt:${s.tilt}deg`}>
+          <div class="sketch-art">
+            {s.image ? (
+              <img src={s.image} alt={s.alt ?? s.caption} loading="lazy" />
+            ) : s.doodle ? (
+              <Doodle name={s.doodle} label={s.caption} />
+            ) : (
+              <span class="placeholder">[scan of a real sketch]</span>
+            )}
+          </div>
+          <figcaption>{s.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<script>
+  const review = document.getElementById('review');
+  const spines = document.querySelectorAll<HTMLButtonElement>('.spine');
+  spines.forEach((s) =>
+    s.addEventListener('click', () => {
+      const wasOn = s.getAttribute('aria-pressed') === 'true';
+      spines.forEach((o) => o.setAttribute('aria-pressed', 'false'));
+      if (review) review.textContent = wasOn ? '' : `${s.dataset.title}: ${s.dataset.review}`;
+      s.setAttribute('aria-pressed', wasOn ? 'false' : 'true');
+    }),
+  );
+</script>

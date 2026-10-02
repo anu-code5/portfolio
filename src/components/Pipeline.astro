@@ -1,0 +1,17 @@
+---
+// Use inside a case study .mdx file:
+// <Pipeline steps={[{ title: 'Phone photo', text: 'Ruled paper, ink' }, ...]} />
+interface Props {
+  steps: { title: string; text: string }[];
+}
+const { steps } = Astro.props;
+---
+
+<ol class="pipeline">
+  {steps.map((s) => (
+    <li>
+      <strong>{s.title}</strong>
+      <span>{s.text}</span>
+    </li>
+  ))}
+</ol>
