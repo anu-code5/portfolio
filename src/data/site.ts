@@ -19,7 +19,7 @@ export const site = {
 // The recruiter strip under the hero.
 export const quickFacts = [
   { label: 'Looking for', value: 'SDE · Full-stack · ML engineer' },
-  { label: 'Strongest in', value: 'TypeScript, React, Node, Python, PyTorch, SQL' },
+  { label: 'Strongest in', value: 'JavaScript, React, Node, Java, Python, SQL, Deep Learning, Computer Vision' },
   { label: 'Available', value: 'January 2027 · open to relocate' },
   //{ label: 'Proof', value: '[Internship @ Company] · [CGPA] · [Hackathon win]' },
   { label: 'Proof', value: 'CGPA:8.71 · National Semi-Finalist of Flipkart GRiD 7.0' },
