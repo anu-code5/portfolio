@@ -1,0 +1,75 @@
+---
+title: Ultrasonic Range Rover
+order: 3
+track: Embedded Systems
+origin: from building
+summary: A real-time ultrasonic distance measuring rover built with an 8051 microcontroller, HC-SR04 sensor and LCD display.
+stack: ["8051", "Assembly", "HC-SR04", "16x2 LCD", "Timer0"]
+result: Real-time object distance measurement in centimeters
+broke: Getting accurate distance readings meant understanding the timing of the ultrasonic echo rather than treating the sensor as a simple input.
+doodle: rover
+role: 'Solo: hardware, embedded programming, testing'
+timeline: 'Academic project'
+code: "https://github.com/anu-code5/Ultrasonic-range-rover-8051"
+---
+
+import Pipeline from '../../components/Pipeline.astro';
+import Metrics from '../../components/Metrics.astro';
+import MarginNote from '../../components/MarginNote.astro';
+import WhatBroke from '../../components/WhatBroke.astro';
+import FigureSlot from '../../components/FigureSlot.astro';
+
+## The problem
+
+I wanted to build a simple embedded system that could measure the distance to an object in real time and display the result directly on the hardware.
+
+The challenge was turning the HC-SR04's ultrasonic echo into an accurate distance measurement using an 8051 microcontroller and its timer.
+
+<MarginNote>margin note: a small project, but a good exercise in understanding how hardware timing becomes something you can actually measure.</MarginNote>
+
+## How it works
+
+<Pipeline
+  steps={[
+    { title: 'Trigger', text: '8051 sends a 10µs trigger pulse to the HC-SR04' },
+    { title: 'Ultrasonic pulse', text: 'The sensor emits a 40 kHz ultrasonic wave' },
+    { title: 'Echo', text: 'The reflected wave returns to the sensor' },
+    { title: 'Measure', text: 'Timer0 measures the duration of the echo pulse' },
+    { title: 'Display', text: 'Distance is calculated and shown on the 16x2 LCD' },
+  ]}
+/>
+
+<FigureSlot>[photo: ultrasonic range rover hardware setup]</FigureSlot>
+
+## Key decisions
+
+- **Timer-based measurement:** used the 8051's Timer0 to measure the echo duration from the HC-SR04.
+- **Direct LCD output:** displayed the calculated distance on a 16x2 LCD so the result could be read directly from the hardware.
+
+## Results
+
+<Metrics
+  items={[
+    { value: '8051', label: 'microcontroller used for the system' },
+    { value: '40kHz', label: 'ultrasonic sensor operating frequency' },
+    { value: 'cm', label: 'distance measurement output' },
+  ]}
+/>
+
+<WhatBroke>
+  The key challenge was getting the timing right. The HC-SR04 measures distance through the time taken for the ultrasonic pulse to return, so the microcontroller has to accurately capture the echo duration.
+
+  The measured time is converted using:
+
+  **Distance (cm) = Time (µs) / 58**
+
+  **Lesson:** embedded systems often come down to understanding timing at the hardware level.
+</WhatBroke>
+
+## What I'd do next
+
+- Add obstacle detection and autonomous navigation
+- Control the rover motors based on measured distance
+- Add multiple ultrasonic sensors for wider detection
+- Improve the rover's real-time movement and obstacle avoidance
+- Add wireless monitoring of sensor readings

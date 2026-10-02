@@ -1,0 +1,74 @@
+---
+title: DocLit AI
+order: 3
+track: AI / Full-stack
+origin: from reading
+summary: An intelligent document assistant that lets users upload PDFs, ask questions in natural language, and get context-aware answers using RAG, semantic search, and Google Gemini.
+stack: [React, FastAPI, Sentence Transformers, FAISS, Gemini API, PyMuPDF]
+result: RAG-powered document conversations with source-aware retrieval
+broke: Getting useful answers wasn't just about using an LLM. The real challenge was retrieving the right context from long documents before sending it to the model.
+doodle: doclit_ai
+role: 'Solo: AI, backend, frontend'
+timeline: 'Work in progress'
+code: "https://github.com/anu-code5/doc_lit_ai"
+---
+
+import Pipeline from '../../components/Pipeline.astro';
+import Metrics from '../../components/Metrics.astro';
+import MarginNote from '../../components/MarginNote.astro';
+import WhatBroke from '../../components/WhatBroke.astro';
+import FigureSlot from '../../components/FigureSlot.astro';
+
+## The problem
+
+Reading long PDFs often means repeatedly searching through pages to find specific information. I wanted to build a system where a user could upload a document and simply ask questions about it in natural language.
+
+Goal: upload a PDF, understand its contents, retrieve the relevant sections, and generate a context-aware answer.
+
+<MarginNote>margin note: the interesting part wasn't making a chatbot. It was making sure the chatbot had the right document context.</MarginNote>
+
+## How it works
+
+<Pipeline
+  steps={[
+    { title: 'Upload PDF', text: 'User uploads a document through the React interface' },
+    { title: 'Extract', text: 'PyMuPDF extracts text from the document' },
+    { title: 'Chunk', text: 'The document is split into meaningful text chunks' },
+    { title: 'Embed', text: 'Sentence Transformers convert chunks into semantic embeddings' },
+    { title: 'Retrieve + Generate', text: 'FAISS retrieves relevant chunks and Gemini generates the final response' },
+  ]}
+/>
+
+<FigureSlot>[screen recording: upload a PDF → ask a question → receive a context-aware answer]</FigureSlot>
+
+## Key decisions
+
+- **Semantic search over keyword-only search:** questions don't always use the same words as the source document, so embeddings help retrieve conceptually relevant passages.
+- **RAG instead of sending the whole document to the model:** retrieve only the relevant context before generating an answer.
+
+## Results
+
+<Metrics
+  items={[
+    { value: 'RAG', label: 'retrieval-augmented generation pipeline' },
+    { value: 'FAISS', label: 'vector database for semantic retrieval' },
+    { value: 'Gemini', label: 'LLM used for context-aware responses' },
+  ]}
+/>
+
+<WhatBroke>
+  The first challenge was retrieval. A language model can generate a convincing answer even when the retrieved context isn't relevant. The system therefore needs to focus on the quality of document chunking, embeddings and retrieval before generation.
+
+  **Lesson:** in a RAG system, better answers start with better retrieval.
+</WhatBroke>
+
+## What I'd do next
+
+- Multi-document conversations
+- Conversation history
+- Streaming AI responses
+- PDF page previews with clickable source citations
+- Authentication and cloud deployment
+- Hybrid semantic + keyword search
+- Persistent vector database
+- Support for Word and PowerPoint documents

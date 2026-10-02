@@ -14,7 +14,7 @@ const work = defineCollection({
     stack: z.array(z.string()),
     result: z.string(),
     broke: z.string(), // the one-line "what broke" margin note
-    doodle: z.enum(['annotate', 'sketch2ui', 'raft']),
+    doodle: z.enum(['smart_surveillance', 'medical_transcriptions', 'rover', 'doclit_ai']),
     role: z.string(),
     timeline: z.string(),
     code: z.string().optional(),

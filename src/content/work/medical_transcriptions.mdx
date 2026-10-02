@@ -1,0 +1,74 @@
+---
+title: Medical Transcription & NLP
+order: 2
+track: NLP + Full-stack
+origin: from healthcare
+summary: An NLP system for processing and understanding medical transcriptions, currently being upgraded into a full-stack platform for doctors and medical students.
+stack: [Python, NLP, Machine Learning]
+result: Work in progress · evolving into a full-stack medical learning and documentation platform
+broke: Medical text is messy, domain-specific, and context-heavy. Building a useful system means handling terminology without losing clinical context.
+doodle: medical_transcriptions
+role: 'Solo: NLP, backend, product development'
+timeline: 'Work in progress'
+code: "https://github.com/anu-code5/medical_transcriptions_nlp"
+---
+
+import Pipeline from '../../components/Pipeline.astro';
+import Metrics from '../../components/Metrics.astro';
+import MarginNote from '../../components/MarginNote.astro';
+import WhatBroke from '../../components/WhatBroke.astro';
+import FigureSlot from '../../components/FigureSlot.astro';
+
+## The problem
+
+Medical transcriptions contain dense terminology and large amounts of unstructured information. Finding, organizing and understanding that information can be time-consuming for doctors and medical students.
+
+The project started as an NLP experiment for processing medical transcriptions and is now being expanded into a full-stack application designed around real healthcare and medical-learning workflows.
+
+<MarginNote>margin note: started as an NLP project. The next version is much bigger.</MarginNote>
+
+## How it works
+
+<Pipeline
+  steps={[
+    { title: 'Medical text', text: 'Process unstructured medical transcription data' },
+    { title: 'NLP processing', text: 'Clean and transform domain-specific medical language' },
+    { title: 'Information extraction', text: 'Identify useful information from the transcription' },
+    { title: 'Application layer', text: 'Build a usable interface around the NLP pipeline' },
+    { title: 'Full-stack platform', text: 'Evolve the project into a tool for doctors and medical students' },
+  ]}
+/>
+
+<FigureSlot>[current NLP pipeline / upcoming full-stack application]</FigureSlot>
+
+### Current direction
+
+The next version will focus on turning the underlying NLP work into a practical application with workflows designed for **doctors and medical students**.
+
+The goal is to make the system useful beyond experimentation — while keeping the NLP pipeline at its core.
+
+## Results
+
+<Metrics
+  items={[
+    { value: 'NLP', label: 'core technology behind the current project' },
+    { value: 'WIP', label: 'full-stack application currently in development' },
+    { value: '2', label: 'target user groups: doctors and medical students' },
+  ]}
+/>
+
+<WhatBroke>
+  Medical language is significantly harder to work with than ordinary text. Terminology, abbreviations and clinical context make seemingly simple NLP tasks more nuanced.
+
+  The current project is therefore being treated as a foundation rather than a finished product.
+
+  **Lesson:** building for a domain means understanding the workflow, not just the model.
+</WhatBroke>
+
+## What I'd do next
+
+- Build the full-stack web application
+- Add authentication and user-specific workflows
+- Create tools specifically for doctors and medical students
+- Improve medical information extraction and NLP capabilities
+- Add a structured interface for reviewing and working with transcriptions
