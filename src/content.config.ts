@@ -9,12 +9,12 @@ const work = defineCollection({
     title: z.string(),
     order: z.number(),
     track: z.string(), // e.g. "Full-stack", "ML", "Systems"
-    origin: z.string(), // the hobby it came from, e.g. "from reading"
+    //origin: z.string(), // the hobby it came from, e.g. "from reading"
     summary: z.string(),
     stack: z.array(z.string()),
-    result: z.string(),
-    broke: z.string(), // the one-line "what broke" margin note
-    doodle: z.enum(['smart_surveillance', 'medical_transcriptions', 'rover', 'doclit_ai']),
+    //result: z.string(),
+    //broke: z.string(), // the one-line "what broke" margin note
+    //doodle: z.enum(['smart_surveillance', 'medical_transcriptions', 'rover', 'doclit_ai']),
     role: z.string(),
     timeline: z.string(),
     code: z.string().optional(),
