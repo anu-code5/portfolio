@@ -54,7 +54,7 @@ const home = isHome ? '' : '/';
         <a href={`${home}#shelf`}>Bookshelf</a>
         <a href={`${home}#sketches`}>Off the Screen</a>
         <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Switch colour theme">
-          <span data-when="light">midnight☾</span>
+          <span data-when="light">midnight ☾</span>
         </button>
         <a class="btn btn-mono" href={site.resume}>resume.pdf ↓</a>
       </nav>
@@ -91,7 +91,7 @@ const home = isHome ? '' : '/';
         root.dataset.theme === 'dark' ||
         (!root.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
       const paint = () => {
-        if (label) label.textContent = isDark() ? 'daylight ☀' : 'midnight study ☾';
+        if (label) label.textContent = isDark() ? 'daylight ☀' : 'midnight ☾';
       };
       paint();
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paint);
